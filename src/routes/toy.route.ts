@@ -1,30 +1,20 @@
 import { Router } from "express";
 import { ToyService } from "../services/toy.service";
+import { defineRequest } from "../utils";
 
 export const ToyRoute = Router()
 
 ToyRoute.get('/', async (req, res) => {
-    try {
+    await defineRequest(res, async () => {
         const rsp = await ToyService.getToys()
-        res.json(rsp.data)
-    } catch (e: any) {
-        res.status(500).json({
-            message: e
-        })
-    }
+        return rsp.data
+    })
 })
 
 ToyRoute.get('/permalink/:permalink', async (req, res) => {
-    try {
+    await defineRequest(res, async () => {
         const perma = req.params.permalink
         const rsp = await ToyService.getToyByPermalink(perma)
-        if (rsp.status == 404) {
-            throw new Error('NOT_FOUND')
-        }
-        res.json(rsp.data)
-    } catch (e: any) {
-        res.status(500).json({
-            message: e
-        })
-    }
+        return rsp.data
+    })
 })
