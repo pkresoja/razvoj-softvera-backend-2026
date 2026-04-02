@@ -17,4 +17,12 @@ export class ToyService {
     static async getToyByPermalink(permalink: string) {
         return client.get<ToyModel>(`/toy/permalink/${permalink}`)
     }
+
+    static async getToysByIds(ids: number[]) {
+        return client.request<ToyModel[]>({
+            url: '/toy/list',
+            method: 'post',
+            data: ids
+        })
+    }
 }

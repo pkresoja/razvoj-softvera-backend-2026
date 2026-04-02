@@ -3,11 +3,27 @@ import { AppDataSource } from "../db";
 import { User } from "../entities/User";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken'
+import { configDotenv } from "dotenv";
 
+configDotenv()
 const repo = AppDataSource.getRepository(User)
-const JWT_KEY = 'f5328103-2a95-4069-9c0c-641109aa3aee'
+const JWT_KEY = String(process.env.JWT_KEY)
 
 export class UserService {
+
+    static async getSafeUserById(id: number) {
+        return await repo.findOneOrFail({
+            select: {
+                userId: true,
+                username: true
+            },
+            where: {
+                userId: id,
+                isActive: true
+            }
+        })
+    }
+
     static async getUserByUsername(username: string) {
         return await repo.findOneOrFail({
             where: {
@@ -59,9 +75,11 @@ export class UserService {
             '/api/toy'
         ]
 
-        if (publicPaths.includes(req.path)) {
-            next()
-            return
+        for (let publicPath of publicPaths) {
+            if (req.path.startsWith(publicPath)) {
+                next()
+                return
+            }
         }
 
         const auth = req.headers.authorization

@@ -1,13 +1,8 @@
 import { Router } from "express";
-import { AppDataSource } from "../db";
-import { Favourite } from "../entities/Favourite";
+import { FavouriteService } from "../services/favourite.service";
 
 export const FavouriteRoute = Router()
 
-FavouriteRoute.get('/', async (req, res) => {
-    res.json(await AppDataSource.getRepository(Favourite).find({
-        relations: {
-            user: true
-        }
-    }))
+FavouriteRoute.get('/', async (req: any, res) => {
+    res.json(await FavouriteService.getFavouritesByUserId(req.user.id))
 })

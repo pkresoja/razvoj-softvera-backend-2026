@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { User } from "./User";
+import type { Relation } from "typeorm";
 
 @Index("fk_favourite_user_idx", ["userId"], {})
 @Entity("favourite", { schema: "razvoj_softvera_2026" })
@@ -34,5 +35,5 @@ export class Favourite {
     onUpdate: "CASCADE",
   })
   @JoinColumn([{ name: "user_id", referencedColumnName: "userId" }])
-  user: User;
+  user: Relation<User>;
 }

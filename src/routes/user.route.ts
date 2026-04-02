@@ -4,6 +4,12 @@ import { UserService } from "../services/user.service";
 
 export const UserRoute = Router()
 
+UserRoute.get('/self', async (req: any, res) => {
+    defineRequest(res, async () => {
+        return await UserService.getSafeUserById(req.user.id)
+    })
+})
+
 UserRoute.post('/login', async (req, res) => {
     defineRequest(res, async () => {
         const body = req.body
