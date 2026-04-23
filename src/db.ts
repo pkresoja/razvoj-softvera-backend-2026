@@ -2,6 +2,8 @@ import { DataSource } from "typeorm";
 import { User } from "./entities/User";
 import { Favourite } from "./entities/Favourite";
 import { configDotenv } from "dotenv";
+import { CartItem } from "./entities/CartItem";
+import { Invoice } from "./entities/Invoice";
 
 configDotenv()
 export const AppDataSource = new DataSource({
@@ -12,6 +14,6 @@ export const AppDataSource = new DataSource({
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
     entities: [
-        User, Favourite
+        User, Favourite, CartItem, Invoice
     ]
 })

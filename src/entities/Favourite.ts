@@ -5,9 +5,9 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  type Relation,
 } from "typeorm";
 import { User } from "./User";
-import type { Relation } from "typeorm";
 
 @Index("fk_favourite_user_idx", ["userId"], {})
 @Entity("favourite", { schema: "razvoj_softvera_2026" })

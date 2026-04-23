@@ -86,7 +86,8 @@ export class UserService {
         const token = auth && auth.split(' ')[1]
         if (token == null) {
             return res.status(401).json({
-                message: 'NO_TOKEN_FOUND'
+                message: 'NO_TOKEN_FOUND',
+                timestamp: new Date()
             })
         }
 
@@ -96,7 +97,8 @@ export class UserService {
             next()
         } catch (e) {
             return res.status(403).json({
-                message: 'INVALID_TOKEN'
+                message: 'INVALID_TOKEN',
+                timestamp: new Date()
             })
         }
     }

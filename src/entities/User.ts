@@ -5,7 +5,9 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { CartItem } from "./CartItem";
 import { Favourite } from "./Favourite";
+import { Invoice } from "./Invoice";
 
 @Index("uq_user_username", ["username"], { unique: true })
 @Entity("user", { schema: "razvoj_softvera_2026" })
@@ -25,6 +27,12 @@ export class User {
   })
   isActive: boolean;
 
+  @OneToMany(() => CartItem, (cartItem) => cartItem.user)
+  cartItems: CartItem[];
+
   @OneToMany(() => Favourite, (favourite) => favourite.user)
   favourites: Favourite[];
+
+  @OneToMany(() => Invoice, (invoice) => invoice.user)
+  invoices: Invoice[];
 }
