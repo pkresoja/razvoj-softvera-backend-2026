@@ -14,6 +14,10 @@ export class ToyService {
         return client.get<ToyModel[]>('/toy')
     }
 
+    static async getToyById(id: number) {
+        return client.get<ToyModel>(`/toy/${id}`)
+    }
+
     static async getToyByPermalink(permalink: string) {
         return client.get<ToyModel>(`/toy/permalink/${permalink}`)
     }
