@@ -3,6 +3,7 @@ import { AppDataSource } from "../db";
 import { CartItem } from "../entities/CartItem";
 import { ToyService } from "./toy.service";
 import { Invoice } from "../entities/Invoice";
+import { randomUUIDv7 } from "bun";
 
 const cartRepo = AppDataSource.getRepository(CartItem)
 const invoiceRepo = AppDataSource.getRepository(Invoice)
@@ -48,7 +49,7 @@ export class CartService {
     }
 
     static async createItem(toyId: number, userId: number) {
-        const existing = await cartRepo.findOneByOrFail({
+        const existing = await cartRepo.findOneBy({
             toyId: toyId,
             userId: userId,
             invoiceId: IsNull(),
@@ -115,5 +116,23 @@ export class CartService {
                 userId
             }
         })
-    } 
+    }
+    
+    static async payInvoice(invoiceId: number, userId: number) {
+        const invoice = await invoiceRepo.findOneBy({
+            invoiceId,
+            userId,
+            paidAt: IsNull()
+        })
+
+        if (invoice == null) {
+            throw new Error('NOT_FOUND')
+        }
+
+        invoice.transactionId = randomUUIDv7()
+        invoice.pursId = randomUUIDv7()
+        invoice.paidAt = new Date()
+
+        await invoiceRepo.save(invoice)
+    }
 }

@@ -53,7 +53,6 @@ export class UserService {
     static async refreshToken(refresh: string) {
         try {
             const decoded: any = jwt.verify(refresh, JWT_KEY)
-            console.log(decoded)
             const payload = {
                 id: decoded.id,
                 name: decoded.name

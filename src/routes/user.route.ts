@@ -20,7 +20,6 @@ UserRoute.post('/login', async (req, res) => {
 UserRoute.post('/refresh', async (req, res) => {
     defineRequest(res, async () => {
         const token = req.headers.authorization?.replace('Bearer ', '') as string
-        console.log(token)
         return await UserService.refreshToken(token)
     })
 })
